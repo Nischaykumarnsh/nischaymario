@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nischay's Adventure - 2D Platformer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Game Header -->
+  <header class="game-header">
+    <h1 class="game-title">★ NISCHAY'S ADVENTURE ★</h1>
+  </header>
+
+  <!-- Main Game Frame -->
+  <div class="game-container">
+    <!-- Heads-Up Display (HUD) -->
+    <div class="hud-bar">
+      <div class="hud-item">
+        <span class="hud-label">HERO</span>
+        <span class="hud-val">NISCHAY</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">SCORE</span>
+        <span class="hud-val gold" id="hudScore">000000</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">COINS</span>
+        <span class="hud-val gold">🪙 <span id="hudCoins">00</span></span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">WORLD</span>
+        <span class="hud-val">1-1</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">LIVES</span>
+        <span class="hud-val" id="hudLives">❤️❤️❤️</span>
+      </div>
+      <button id="soundToggleBtn" class="hud-controls-btn" title="Toggle Sound (M)">🔊 Sound: ON</button>
+    </div>
+
+    <!-- Canvas -->
+    <canvas id="gameCanvas" width="800" height="448"></canvas>
+
+    <!-- Start Game Modal Overlay -->
+    <div id="startOverlay" class="overlay">
+      <div class="overlay-card">
+        <h2 class="overlay-title">NISCHAY'S ADVENTURE</h2>
+        <div class="hero-preview">
+          🏃 Meet <strong>Nischay</strong>: The fearless platforming hero!
+        </div>
+        <div class="instructions-box">
+          <p><strong>MISSION:</strong> Journey across Greenwood Hills, collect shiny gold coins, stomp the Grumper creatures, bounce off mystery blocks, and reach the finish flag!</p>
+          <ul style="margin-top: 10px;">
+            <li>🎮 <strong>Move:</strong> <kbd>A</kbd> / <kbd>D</kbd> or <kbd>←</kbd> <kbd>→</kbd></li>
+            <li>🚀 <strong>Jump:</strong> <kbd>Space</kbd>, <kbd>W</kbd>, or <kbd>↑</kbd> (Hold for higher jump!)</li>
+            <li>💥 <strong>Combat:</strong> Jump on top of enemies to defeat them!</li>
+            <li>🔇 <strong>Audio:</strong> <kbd>M</kbd> to Mute/Unmute</li>
+            <li>⏸️ <strong>Pause:</strong> <kbd>P</kbd> | <strong>Restart:</strong> <kbd>R</kbd></li>
+          </ul>
+        </div>
+        <button id="startBtn" class="btn-arcade">▶ START ADVENTURE</button>
+      </div>
+    </div>
+
+    <!-- Game Over Modal Overlay -->
+    <div id="gameOverOverlay" class="overlay hidden">
+      <div class="overlay-card">
+        <h2 class="overlay-title danger">GAME OVER</h2>
+        <p class="overlay-stats">
+          Nischay ran out of lives!<br>
+          Final Score: <strong id="finalScore" class="gold">000000</strong>
+        </p>
+        <button id="restartBtn" class="btn-arcade">🔄 RESTART GAME</button>
+      </div>
+    </div>
+
+    <!-- You Win Modal Overlay -->
+    <div id="winOverlay" class="overlay hidden">
+      <div class="overlay-card">
+        <h2 class="overlay-title win">🏆 LEVEL COMPLETE!</h2>
+        <p class="overlay-stats">
+          Nischay made it to the castle safely!<br><br>
+          🌟 Total Coins: <strong id="winCoins" class="gold">0</strong><br>
+          ⭐ Final Score: <strong id="winScore" class="gold">000000</strong>
+        </p>
+        <button id="playAgainBtn" class="btn-arcade success">🎉 PLAY AGAIN</button>
+      </div>
+    </div>
+
+    <!-- Pause Modal Overlay -->
+    <div id="pauseOverlay" class="overlay hidden">
+      <div class="overlay-card">
+        <h2 class="overlay-title">GAME PAUSED</h2>
+        <p class="overlay-stats">Press <kbd>P</kbd> to resume your adventure</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Touch Controls for Mobile/Tablet -->
+  <div class="touch-controls">
+    <div class="dpad">
+      <button id="btnLeft" class="touch-btn" aria-label="Move Left">◀</button>
+      <button id="btnRight" class="touch-btn" aria-label="Move Right">▶</button>
+    </div>
+    <button id="btnJump" class="touch-btn touch-btn-jump" aria-label="Jump">JUMP</button>
+  </div>
+
+  <!-- Keyboard Controls Reference for Desktop -->
+  <footer class="controls-hint">
+    Use <kbd>A</kbd>/<kbd>D</kbd> or <kbd>←</kbd>/<kbd>→</kbd> to Run &bull;
+    <kbd>Space</kbd> or <kbd>↑</kbd> to Jump &bull;
+    <kbd>M</kbd> to Mute &bull;
+    <kbd>P</kbd> to Pause &bull;
+    <kbd>R</kbd> to Restart
+  </footer>
+
+  <!-- Scripts -->
+  <script src="audio.js"></script>
+  <script src="sprites.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

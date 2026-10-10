@@ -1,0 +1,385 @@
+/* ===================================================
+   NISCHAY'S ADVENTURE - STYLESHEET
+   Retro Arcade Aesthetics with Clean Responsive Layout
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@400;600;800&display=swap');
+
+:root {
+  --primary-color: #e63946;
+  --primary-dark: #b51724;
+  --secondary-color: #ffd166;
+  --accent-blue: #1d3557;
+  --sky-top: #3a86ff;
+  --sky-bottom: #90dbf4;
+  --text-dark: #1f2421;
+  --text-light: #f8f9fa;
+  --pixel-font: 'Press Start 2P', monospace, sans-serif;
+  --ui-font: 'Outfit', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: #0f141d;
+  background-image: 
+    radial-gradient(circle at 50% 20%, #1a2639 0%, #0a0e17 100%);
+  color: var(--text-light);
+  font-family: var(--pixel-font);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 10px;
+  overflow-x: hidden;
+}
+
+/* Header container */
+.game-header {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.game-title {
+  font-size: clamp(14px, 3.2vw, 24px);
+  color: var(--secondary-color);
+  text-shadow: 
+    3px 3px 0px #000,
+    -2px -2px 0px #c77d00,
+    0 0 16px rgba(255, 209, 102, 0.4);
+  letter-spacing: 1px;
+}
+
+/* Canvas & Screen Container */
+.game-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  background: #000;
+  border: 4px solid #343a40;
+  border-radius: 12px;
+  box-shadow: 
+    0 12px 35px rgba(0, 0, 0, 0.6),
+    0 0 0 2px #495057;
+  overflow: hidden;
+  aspect-ratio: 800 / 448;
+}
+
+#gameCanvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* HUD Overlay */
+.hud-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.2) 80%, transparent 100%);
+  font-size: clamp(8px, 1.6vw, 12px);
+  color: #fff;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.hud-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-shadow: 2px 2px 0px #000;
+}
+
+.hud-label {
+  font-size: 0.7em;
+  color: #adb5bd;
+  letter-spacing: 1px;
+}
+
+.hud-val {
+  color: #fff;
+  font-weight: bold;
+}
+
+.hud-val.gold {
+  color: var(--secondary-color);
+}
+
+.hud-controls-btn {
+  pointer-events: auto;
+  background: rgba(29, 53, 87, 0.85);
+  border: 2px solid #457b9d;
+  color: #fff;
+  font-family: var(--pixel-font);
+  font-size: clamp(8px, 1.3vw, 11px);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.hud-controls-btn:hover {
+  background: #457b9d;
+  transform: translateY(-1px);
+}
+
+.hud-controls-btn.muted {
+  background: rgba(108, 117, 125, 0.8);
+  border-color: #adb5bd;
+}
+
+/* Screen Overlays (Start, Game Over, Win, Pause) */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 14, 23, 0.88);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+  z-index: 20;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.overlay-card {
+  background: rgba(26, 38, 57, 0.95);
+  border: 3px solid var(--secondary-color);
+  border-radius: 12px;
+  padding: 24px 30px;
+  max-width: 480px;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+.overlay-title {
+  font-size: clamp(16px, 3.2vw, 24px);
+  color: var(--secondary-color);
+  margin-bottom: 16px;
+  text-shadow: 2px 2px 0px #000;
+  line-height: 1.4;
+}
+
+.overlay-title.danger {
+  color: var(--primary-color);
+  text-shadow: 2px 2px 0px #000, 0 0 12px rgba(230, 57, 70, 0.5);
+}
+
+.overlay-title.win {
+  color: #52b788;
+  text-shadow: 2px 2px 0px #000, 0 0 12px rgba(82, 183, 136, 0.6);
+}
+
+.hero-preview {
+  display: inline-block;
+  margin: 10px auto 16px;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  font-family: var(--ui-font);
+  font-size: 13px;
+  color: #e9ecef;
+}
+
+.overlay-stats {
+  font-size: clamp(10px, 1.8vw, 13px);
+  line-height: 1.8;
+  margin-bottom: 20px;
+  color: #dee2e6;
+}
+
+.instructions-box {
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 20px;
+  font-family: var(--ui-font);
+  font-size: 13px;
+  line-height: 1.6;
+  color: #ced4da;
+  text-align: left;
+}
+
+.instructions-box strong {
+  color: var(--secondary-color);
+}
+
+.instructions-box ul {
+  list-style: none;
+  margin-top: 6px;
+}
+
+.instructions-box li {
+  margin-bottom: 4px;
+}
+
+/* Arcade Buttons */
+.btn-arcade {
+  display: inline-block;
+  font-family: var(--pixel-font);
+  font-size: clamp(11px, 2vw, 14px);
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-shadow: 2px 2px 0 #8b0000;
+  box-shadow: 
+    0 6px 0 var(--primary-dark),
+    0 10px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.1s ease;
+}
+
+.btn-arcade:hover {
+  background: #ef476f;
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 0 var(--primary-dark),
+    0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+.btn-arcade:active {
+  transform: translateY(4px);
+  box-shadow: 
+    0 2px 0 var(--primary-dark),
+    0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.btn-arcade.success {
+  background: #2b9348;
+  box-shadow: 
+    0 6px 0 #1b5e20,
+    0 10px 20px rgba(0, 0, 0, 0.4);
+  text-shadow: 2px 2px 0 #0f3d13;
+}
+
+.btn-arcade.success:hover {
+  background: #38b000;
+  box-shadow: 
+    0 8px 0 #1b5e20,
+    0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Touch Controls Bar (Mobile / Responsive) */
+.touch-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 12px;
+  padding: 4px 8px;
+  gap: 16px;
+}
+
+.dpad {
+  display: flex;
+  gap: 12px;
+}
+
+.touch-btn {
+  background: rgba(29, 53, 87, 0.9);
+  border: 3px solid #457b9d;
+  color: #fff;
+  font-family: var(--pixel-font);
+  font-size: 18px;
+  width: 62px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #152438;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.touch-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #152438;
+  background: #457b9d;
+}
+
+.touch-btn-jump {
+  background: rgba(230, 57, 70, 0.9);
+  border-color: #ff758f;
+  box-shadow: 0 4px 0 var(--primary-dark);
+  width: 90px;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.touch-btn-jump:active {
+  background: #ff4d6d;
+  box-shadow: 0 1px 0 var(--primary-dark);
+}
+
+/* Keyboard hint bar underneath */
+.controls-hint {
+  margin-top: 10px;
+  font-family: var(--ui-font);
+  font-size: 13px;
+  color: #adb5bd;
+  text-align: center;
+}
+
+.controls-hint kbd {
+  background: #212529;
+  border: 1px solid #495057;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: monospace;
+  color: var(--secondary-color);
+  font-size: 12px;
+}
+
+/* Responsive adjustment */
+@media (max-width: 600px) {
+  body {
+    padding: 6px;
+  }
+
+  .game-container {
+    border-width: 2px;
+    border-radius: 8px;
+  }
+
+  .touch-btn {
+    width: 54px;
+    height: 50px;
+    font-size: 16px;
+  }
+
+  .touch-btn-jump {
+    width: 78px;
+    font-size: 11px;
+  }
+}
